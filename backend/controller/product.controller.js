@@ -1,25 +1,45 @@
 import Product from "../models/product.model.js";
+import { uploadOnCloudinary } from "../config/cloudinary.js";
 
 // add product :/api/product/add
 export const addProduct = async (req, res) => {
     try {
         const { name, price, offerPrice, description, category } = req.body;
-        // const image = req.files?.map((file) => `/uploads/${file.filename}`);
-        const image = req.files?.map((file) => file.filename);
+
+        // Multer: req.files is always an array when using upload.array("images")
+        const files = req.files || [];
+
         if (
             !name ||
             !price ||
             !offerPrice ||
             !description ||
             !category ||
-            !image ||
-            image.length === 0
+            files.length === 0
         ) {
             return res.status(400).json({
                 success: false,
-                message: "All fields including images are required",
+                message: "All fields including at least one image are required",
             });
         }
+
+        // Upload each file to Cloudinary
+        const uploads = await Promise.all(
+            files.map(async (file) => {
+                return uploadOnCloudinary(file.path);
+            })
+        );
+
+        // Check if any failed
+        const failed = uploads.some((u) => !u || !u.url);
+        if (failed) {
+            return res.status(500).json({
+                success: false,
+                message: "Failed to upload one or more images to Cloudinary",
+            });
+        }
+
+        const imageUrls = uploads.map((u) => u.url);
 
         const product = new Product({
             name,
@@ -27,7 +47,7 @@ export const addProduct = async (req, res) => {
             offerPrice,
             description,
             category,
-            image,
+            image: imageUrls, // Store Cloudinary URLs
         });
 
         const savedProduct = await product.save();

@@ -46,8 +46,12 @@ const SingleProduct = () => {
                                     className="border max-w-24 border-gray-500/30 rounded overflow-hidden cursor-pointer"
                                 >
                                     <img
-                                        src={`http://localhost:5000/images/${image}`}
+                                        src={image || assets.placeholder_img}
                                         alt={`Thumbnail ${index + 1}`}
+                                        onError={(e) => {
+                                            e.currentTarget.src =
+                                                assets.placeholder_img;
+                                        }}
                                     />
                                 </div>
                             ))}
@@ -55,8 +59,12 @@ const SingleProduct = () => {
 
                         <div className="border border-gray-500/30 max-w-100 rounded overflow-hidden">
                             <img
-                                src={`http://localhost:5000/images/${thumbnail}`}
+                                src={thumbnail || assets.placeholder_img}
                                 alt="Selected product"
+                                onError={(e) => {
+                                    e.currentTarget.src =
+                                        assets.placeholder_img;
+                                }}
                             />
                         </div>
                     </div>
