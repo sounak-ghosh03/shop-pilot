@@ -10,7 +10,7 @@ const ProductCategory = () => {
     );
 
     const filteredProducts = products.filter(
-        (product) => product.category.toLowerCase() === category
+        (product) => product.category.toLowerCase() === category.toLowerCase()
     );
     return (
         <div className="mt-16">
