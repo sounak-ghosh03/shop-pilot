@@ -13,7 +13,7 @@ const Category = () => {
                         style={{ backgroundColor: category.bgColor }}
                         onClick={() => {
                             navigate(
-                                `/products/${category.path.toLowerCase()}`
+                                `/products/${category.text.toLowerCase()}`
                             );
                             scrollTo(0, 0);
                         }}
