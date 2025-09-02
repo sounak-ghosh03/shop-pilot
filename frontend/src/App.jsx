@@ -1,3 +1,4 @@
+// Filename: App.jsx
 import { Routes, Route, useLocation } from "react-router-dom";
 import Products from "./pages/Products";
 import SingleProduct from "./pages/SingleProduct";
@@ -16,17 +17,26 @@ import SellerLayout from "./pages/seller/SellerLayout";
 import AddProduct from "./pages/seller/AddProduct";
 import ProductList from "./pages/seller/ProductList";
 import Orders from "./pages/seller/Orders";
+
 const App = () => {
     const isSellerPath = useLocation().pathname.includes("seller");
     const { showUserLogin, isSeller } = useAppContext();
+
     return (
-        <div className="text-default min-h-screen">
-            {isSellerPath ? null : <Navbar />}
-            {showUserLogin ? <Auth /> : null}
-            <Toaster />
-            <div
-                className={`${
-                    isSellerPath ? "" : "px-6 md:px-16 lg:px-24 xl:px-32"
+        <div className="min-h-screen bg-indigo-50 text-gray-800 flex flex-col">
+            {/* Navbar (hidden on seller paths) */}
+            {!isSellerPath && <Navbar />}
+
+            {/* Auth Modal */}
+            {showUserLogin && <Auth />}
+
+            {/* Toaster for notifications */}
+            <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
+
+            {/* Main Content */}
+            <main
+                className={`flex-1 ${
+                    isSellerPath ? "" : "px-6 md:px-16 lg:px-24 xl:px-32 py-8"
                 }`}
             >
                 <Routes>
@@ -43,6 +53,8 @@ const App = () => {
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/add-address" element={<Address />} />
                     <Route path="/my-orders" element={<MyOrders />} />
+
+                    {/* Seller Routes */}
                     <Route
                         path="/seller"
                         element={isSeller ? <SellerLayout /> : <SellerLogin />}
@@ -61,9 +73,12 @@ const App = () => {
                         />
                     </Route>
                 </Routes>
-            </div>
-            {isSellerPath ? null : <Footer />}
+            </main>
+
+            {/* Footer (hidden on seller paths) */}
+            {!isSellerPath && <Footer />}
         </div>
     );
 };
+
 export default App;
