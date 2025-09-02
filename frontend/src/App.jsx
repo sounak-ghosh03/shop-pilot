@@ -17,6 +17,7 @@ import SellerLayout from "./pages/seller/SellerLayout";
 import AddProduct from "./pages/seller/AddProduct";
 import ProductList from "./pages/seller/ProductList";
 import Orders from "./pages/seller/Orders";
+import ChatbotButton from "./components/ChatBot";
 
 const App = () => {
     const isSellerPath = useLocation().pathname.includes("seller");
@@ -77,6 +78,8 @@ const App = () => {
 
             {/* Footer (hidden on seller paths) */}
             {!isSellerPath && <Footer />}
+
+            <ChatbotButton/>
         </div>
     );
 };
