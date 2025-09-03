@@ -118,7 +118,7 @@ const SingleProduct = () => {
                         <div className="flex items-center mt-10 gap-4 text-base">
                             <button
                                 onClick={() => addToCart(product._id)}
-                                className="w-full py-3.5 cursor-pointer font-medium bg-gray-100 text-gray-800/80 hover:bg-gray-200 transition"
+                                className="w-full py-3.5 cursor-pointer font-medium bg-gray-200 text-gray-800/80 hover:bg-gray-300 transition"
                             >
                                 Add to Cart
                             </button>
